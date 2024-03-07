@@ -27,13 +27,16 @@ const AnecdoteList = ({ anecdotes }) => (
   </div>
 )
 
-const Anecdote = ({ dote }) => {
+const Anecdote = ({ dote, vote }) => {
   return (
     <div>
       <h2>{dote.content}</h2>
       <p>author: {dote.author}</p>
       <p>for more information see: <a href={dote.info} >{dote.info}</a></p>
-      <p>votes: {dote.votes}</p>
+      <p>
+        votes: {dote.votes} &ensp;
+        <button type='button' onClick={() => vote(dote.id)}>vote</button>
+      </p>
     </div>
   )
 }
@@ -180,7 +183,7 @@ const App = () => {
       <Menu />
       <Notification notification={notification} />
       <Routes>
-        <Route path='/anecdotes/:id' element={<Anecdote dote={dote} />} />
+        <Route path='/anecdotes/:id' element={<Anecdote dote={dote} vote={vote}/>} />
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path='/create' element={<CreateNew addNew={addNew} />} />
         <Route path='/about' element={<About />} />

@@ -1,0 +1,67 @@
+
+GET http://localhost:3003/api/blogs
+
+###
+
+GET http://localhost:3003/api/blogs/11
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eiOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RCbG9nIiwiaWQiOiI2NTZlMzEyNDQ5YzYyMWM1MTg5Yjk0MzAiLCJpYXQiOjE3MDI4OTc3ODB9.HhzPuxzor2h6p_KFSFLvy0OltrGWhuxzyfgb9T3XXVY
+
+{
+    "title": "lösche den blog gleich wieder",
+    "author": "me",
+    "url": "some url",
+    "likes": 10
+}
+
+###
+
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "blog my 123"
+}
+
+###
+POST  http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "blog main 2",
+    "name": "logblog ",
+    "password": "aspasdasd123aspwasf"
+}
+
+###
+POST  http://localhost:3003/api/users
+Content-Type: application/json
+
+{ 
+    "username": "max",
+    "name": "max",
+    "password": "maxmax"
+}
+
+###
+
+GET http://localhost:3003/api/users
+
+
+###
+
+POST http://localhost:3003/api/login
+Content-Type:  application/json
+
+{
+    "username": "testBlog",
+    "password": "1234"  
+}
+###
+
+DELETE  http://localhost:3003/api/blogs/65802bec2f9cdcee676a83ef
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RCbG9nIiwiaWQiOiI2NTZlMzEyNDQ5YzYyMWM1MTg5Yjk0MzAiLCJpYXQiOjE3MDI4OTc3ODB9.HhzPuxzor2h6p_KFSFLvy0OltrGWhuxzyfgb9T3XXVY

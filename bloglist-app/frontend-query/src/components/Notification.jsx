@@ -1,3 +1,19 @@
+import { useNotificationValue } from "./BlogContext";
+
+const Notification = () => {
+  const notification = useNotificationValue();
+
+  if (!notification) {
+    return <></>;
+  }
+  return (
+    <div className={notification[1] ? "confirmation" : "error"}>
+      {notification[0]}
+    </div>
+  );
+};
+
+/**
 const Notification = ({ errorMessage, confirmationMessage }) => {
   return (
     <div>
@@ -18,5 +34,6 @@ const ConfirmationMessage = ({ confirmationMessage }) => {
     return <div className="confirmation">{confirmationMessage}</div>;
   }
 };
+ */
 
 export default Notification;

@@ -9,17 +9,14 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 
+import { useNotificationDispatch } from "./components/BlogContext";
+
 const App = () => {
   const [updateBlogs, setUpdateBlogs] = useState(0);
-
   const [blogs, setBlogs] = useState([]);
-
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [confirmationMessage, setConfirmationMessage] = useState(null);
 
   const newBlogRef = useRef();
 
@@ -50,6 +47,8 @@ const App = () => {
     setUpdateBlogs(updateBlogs + 1);
   };
 
+  const dispatch = useNotificationDispatch();
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -60,10 +59,11 @@ const App = () => {
       setPassword("");
       blogService.setToken(user.token);
     } catch (exc) {
-      setErrorMessage("wrong username or password");
+      const payload = "wrong username or password";
+      dispatch({ type: "ERROR", payload: payload });
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        dispatch({ type: "REMOVE", payload: payload });
+      }, 6000);
     }
   };
 
@@ -79,17 +79,17 @@ const App = () => {
     try {
       const blog = await blogService.addBlog(newBlogObject);
       setUpdateBlogs(updateBlogs + 1);
-      setConfirmationMessage(
-        `a new blog: ${blog.title} by ${blog.author} was added.`,
-      );
+      const payload = `a new blog: ${blog.title} by ${blog.author} was added.`;
+      dispatch({ type: "CONFIRM", payload: payload });
       setTimeout(() => {
-        setConfirmationMessage(null);
-      }, 5000);
+        dispatch({ type: "REMOVE", payload: payload });
+      }, 6000);
     } catch (exc) {
-      setErrorMessage(exc.response.data.error);
+      const payload = exc.response.data.error;
+      dispatch({ type: "ERROR", payload: payload });
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        dispatch({ type: "REMOVE", payload: payload });
+      }, 6000);
     }
   };
 
@@ -115,10 +115,7 @@ const App = () => {
         password={password}
       />
 
-      <Notification
-        errorMessage={errorMessage}
-        confirmationMessage={confirmationMessage}
-      />
+      <Notification />
 
       {showBlogs()}
 

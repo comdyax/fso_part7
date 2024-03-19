@@ -1,4 +1,3 @@
-
 const LoginForm = ({
   handleLogin,
   handleLogout,
@@ -6,7 +5,8 @@ const LoginForm = ({
   setPassword,
   username,
   password,
-  user }) => {
+  user,
+}) => {
   if (user === null) {
     return (
       <>
@@ -32,20 +32,24 @@ const LoginForm = ({
               id="password"
             />
           </div>
-          <button type="submit" id="login-button">login</button>
+          <button type="submit" id="login-button">
+            login
+          </button>
         </form>
       </>
-    )
+    );
   } else {
     return (
       <div>
         <h1>{user.name} is logged in</h1>
         <form onSubmit={handleLogout}>
-          <button type='submit' id="logout-button">logout</button>
+          <button type="submit" id="logout-button">
+            logout
+          </button>
         </form>
       </div>
-    )
+    );
   }
-}
+};
 
-export default LoginForm
+export default LoginForm;

@@ -48,7 +48,7 @@
     "testEnvironment": "jsdom"
   },
   "lint-staged": {
-    "*.{js, jsx}": [
+    "bloglist-app/frontend-query/**/*.{js, jsx}": [
       "eslint --fix",
       "prettier --write --ignore-unknown"
     ]

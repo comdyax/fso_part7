@@ -13,7 +13,8 @@ const App = () =>
 {
   const [updateBlogs, setUpdateBlogs  ] = 
   useState(0);
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = 
+  useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = 
   useState("");

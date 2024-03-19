@@ -1,1 +1,1 @@
-npx lint-staged
+cd bloglist-app/frontend-query && npx lint-staged

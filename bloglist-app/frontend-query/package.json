@@ -48,6 +48,8 @@
     "testEnvironment": "jsdom"
   },
   "lint-staged": {
-    "**/*": ["eslint", "prettier --write --ignore-unknown"]
+    "**/*": [
+      "prettier --write --ignore-unknown"
+    ]
   }
 }

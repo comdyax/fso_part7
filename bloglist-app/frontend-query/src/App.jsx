@@ -13,10 +13,8 @@ const App = () => {
   const [updateBlogs, setUpdateBlogs] = useState(0);
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [username, setUsername] = 
-  useState("");
-  const [password, setPassword] = 
-  useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [confirmationMessage, setConfirmationMessage] = useState(null);

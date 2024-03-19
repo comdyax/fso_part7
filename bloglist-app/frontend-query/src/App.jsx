@@ -5,23 +5,18 @@ import loginService from "./services/login";
 
 import NewBlog from "./components/NewBlog";
 import Blogs from "./components/Blogs";
-import LoginForm from "./components/LoginForm"
+import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
-import Togglable from "./components/Togglable"
+import Togglable from "./components/Togglable";
 
-const App = () => 
-{
-  const [updateBlogs, setUpdateBlogs  ] = 
-  useState(0);
-  const [blogs, setBlogs] = 
-  useState([]);
+const App = () => {
+  const [updateBlogs, setUpdateBlogs] = useState(0);
+  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [username, setUsername] = 
-  useState("");
-  const [password, setPassword] = 
-  useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [errorMessage,  setErrorMessage ] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
 
   const newBlogRef = useRef();

@@ -13,13 +13,13 @@ import Togglable from "./components/Togglable";
 import { useNotificationDispatch } from "./components/BlogContext";
 
 const App = () => {
-  const [updateBlogs, setUpdateBlogs] = useState(0);
-  //const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const newBlogRef = useRef();
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -29,15 +29,6 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
-
-  const reloadBlogs = () => {
-    setUpdateBlogs(updateBlogs + 1);
-  };
-
-  const addLike = async (newBlogObject) => {
-    await blogService.updateBlog(newBlogObject);
-    setUpdateBlogs(updateBlogs + 1);
-  };
 
   const dispatch = useNotificationDispatch();
 
@@ -66,7 +57,16 @@ const App = () => {
     window.localStorage.removeItem("loggedBlogAppUser");
   };
 
-  const queryClient = useQueryClient();
+  const likeBlogMutation = useMutation({
+    mutationFn: blogService.updateBlog,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+    },
+  });
+
+  const addLike = async (newBlogObject) => {
+    await likeBlogMutation.mutateAsync(newBlogObject);
+  };
 
   const newBlogMutation = useMutation({
     mutationFn: blogService.addBlog,
@@ -140,7 +140,6 @@ const App = () => {
         user={user}
         handleLogout={handleLogout}
         blogs={blogs}
-        reloadBlogs={reloadBlogs}
         addLike={addLike}
       />
     </div>

@@ -1,19 +1,27 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 import PropTypes from "prop-types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const Blog = ({ blog, user, reloadBlogs, addLike }) => {
+const Blog = ({ blog, user, addLike }) => {
+  const queryClient = useQueryClient();
   const [hide, setHide] = useState(true);
 
   const changeHide = () => {
     setHide(!hide);
   };
 
+  const removeBlogMutation = useMutation({
+    mutationFn: blogService.deleteBlog,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["blogs"] });
+    },
+  });
+
   const removeBlog = async () => {
     try {
       if (window.confirm(`Delete blog '${blog.title}' by ${blog.author}?`)) {
-        await blogService.deleteBlog(blog.id);
-        reloadBlogs();
+        await removeBlogMutation.mutateAsync(blog.id);
       }
     } catch (exc) {
       console.log(exc);
@@ -90,7 +98,6 @@ const Blog = ({ blog, user, reloadBlogs, addLike }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  reloadBlogs: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   addLike: PropTypes.func.isRequired,
 };

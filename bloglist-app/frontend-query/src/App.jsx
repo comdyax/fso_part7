@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -13,21 +14,12 @@ import { useNotificationDispatch } from "./components/BlogContext";
 
 const App = () => {
   const [updateBlogs, setUpdateBlogs] = useState(0);
-  const [blogs, setBlogs] = useState([]);
+  //const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const newBlogRef = useRef();
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      blogs.sort((blog1, blog2) => {
-        return blog1.likes <= blog2.likes ? 1 : -1;
-      });
-      setBlogs(blogs);
-    });
-  }, [updateBlogs]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -74,11 +66,19 @@ const App = () => {
     window.localStorage.removeItem("loggedBlogAppUser");
   };
 
+  const queryClient = useQueryClient();
+
+  const newBlogMutation = useMutation({
+    mutationFn: blogService.addBlog,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+    },
+  });
+
   const addNewBlog = async (newBlogObject) => {
     newBlogRef.current.toggleVisibility();
     try {
-      const blog = await blogService.addBlog(newBlogObject);
-      setUpdateBlogs(updateBlogs + 1);
+      const blog = await newBlogMutation.mutateAsync(newBlogObject);
       const payload = `a new blog: ${blog.title} by ${blog.author} was added.`;
       dispatch({ type: "CONFIRM", payload: payload });
       setTimeout(() => {
@@ -92,6 +92,23 @@ const App = () => {
       }, 6000);
     }
   };
+
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["blogs"],
+    queryFn: blogService.getAll,
+    retry: 1,
+  });
+
+  if (isPending) {
+    return <div>loading data...</div>;
+  }
+
+  if (isError) {
+    console.log(error.message);
+    return <div>blog service not available due to problems with server</div>;
+  }
+
+  const blogs = data;
 
   const showBlogs = () => {
     if (user !== null) {

@@ -11,36 +11,35 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 
 import { useNotificationDispatch } from "./components/BlogContext";
+import { useUserDispatch, useUserValue } from "./components/UserContext";
 
 const App = () => {
-  const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const newBlogRef = useRef();
 
   const queryClient = useQueryClient();
+  const dispatch = useNotificationDispatch();
+  const userDispatch = useUserDispatch();
+  const user = useUserValue();
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+      userDispatch({ type: "LOGIN", payload: user });
     }
   }, []);
-
-  const dispatch = useNotificationDispatch();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
-      setUser(user);
+      userDispatch({ type: "LOGIN", payload: user });
       setUsername("");
       setPassword("");
-      blogService.setToken(user.token);
     } catch (exc) {
       const payload = "wrong username or password";
       dispatch({ type: "ERROR", payload: payload });
@@ -52,9 +51,7 @@ const App = () => {
 
   const handleLogout = async (event) => {
     event.preventDefault();
-    setUser(null);
-    blogService.setToken(null);
-    window.localStorage.removeItem("loggedBlogAppUser");
+    userDispatch({ type: "LOGOUT", payload: null });
   };
 
   const likeBlogMutation = useMutation({
@@ -127,7 +124,6 @@ const App = () => {
         handleLogout={handleLogout}
         setUsername={setUsername}
         setPassword={setPassword}
-        user={user}
         username={username}
         password={password}
       />
@@ -136,12 +132,7 @@ const App = () => {
 
       {showBlogs()}
 
-      <Blogs
-        user={user}
-        handleLogout={handleLogout}
-        blogs={blogs}
-        addLike={addLike}
-      />
+      <Blogs handleLogout={handleLogout} blogs={blogs} addLike={addLike} />
     </div>
   );
 };

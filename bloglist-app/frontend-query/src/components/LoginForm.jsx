@@ -1,3 +1,5 @@
+import { useUserValue } from "./UserContext";
+
 const LoginForm = ({
   handleLogin,
   handleLogout,
@@ -5,8 +7,8 @@ const LoginForm = ({
   setPassword,
   username,
   password,
-  user,
 }) => {
+  const user = useUserValue();
   if (user === null) {
     return (
       <>

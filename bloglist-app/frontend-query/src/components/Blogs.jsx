@@ -1,14 +1,16 @@
 import Blog from "./Blog";
+import { useUserValue } from "./UserContext";
 
 const Blogs = (props) => {
-  if (props.user !== null) {
+  const user = useUserValue();
+  if (user !== null) {
     return (
-      <div key={props.user.id} id="blogs">
+      <div key={user.id} id="blogs">
         <h2>blogs</h2>
-        <ul key={props.user.id}>
+        <ul key={user.id}>
           {props.blogs.map((blog) => (
             <li key={blog.id}>
-              <Blog blog={blog} user={props.user} addLike={props.addLike} />
+              <Blog blog={blog} user={user} addLike={props.addLike} />
             </li>
           ))}
         </ul>

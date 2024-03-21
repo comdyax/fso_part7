@@ -12,6 +12,8 @@ import Togglable from "./components/Togglable";
 
 import { useNotificationDispatch } from "./components/BlogContext";
 import { useUserDispatch, useUserValue } from "./components/UserContext";
+import { Route, Routes } from "react-router-dom";
+import Users from "./components/Users";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -30,6 +32,7 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON);
       userDispatch({ type: "LOGIN", payload: user });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogin = async (event) => {
@@ -128,11 +131,24 @@ const App = () => {
         password={password}
       />
 
+      <Routes>
+        <Route path="/users" element={<Users />} />
+        <Route
+          path="/"
+          element={
+            <div>
+              {showBlogs()}
+              <Blogs
+                handleLogout={handleLogout}
+                blogs={blogs}
+                addLike={addLike}
+              />
+            </div>
+          }
+        />
+      </Routes>
+
       <Notification />
-
-      {showBlogs()}
-
-      <Blogs handleLogout={handleLogout} blogs={blogs} addLike={addLike} />
     </div>
   );
 };

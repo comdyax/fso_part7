@@ -1,18 +1,39 @@
 import userService from "../services/users";
 import { useQuery } from "@tanstack/react-query";
 import Table from "react-bootstrap/Table";
+import { Link, Route, Routes } from "react-router-dom";
+import { useMatch } from "react-router-dom";
+import DetailUser from "./DetailUser";
 
-const User = ({ user }) => {
+const UserTable = ({ users }) => {
   return (
-    <tr>
-      <td></td>
-      <td>{user.username}</td>
-      <td>{user.blogs.length}</td>
-    </tr>
+    <>
+      <h1>Users</h1>
+      <Table>
+        <thead>
+          <tr>
+            <th>username</th>
+            <th>blogs created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.username}</Link>
+              </td>
+              <td>{user.blogs.length}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </>
   );
 };
 
 const Users = () => {
+  const match = useMatch("users/:id");
+
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["users"],
     queryFn: userService.getAll,
@@ -29,24 +50,20 @@ const Users = () => {
   }
 
   const users = data;
+  let userToRender = null;
+  if (match) {
+    userToRender = users.find((user) => user.id === match.params.id);
+  }
 
   return (
     <>
-      <h1>Users</h1>
-      <Table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>username</th>
-            <th>blogs created</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <User key={user.id} user={user} />
-          ))}
-        </tbody>
-      </Table>
+      <Routes>
+        <Route
+          path="/:id"
+          element={<DetailUser userToRender={userToRender} />}
+        />
+        <Route path="/" element={<UserTable users={users} />} />
+      </Routes>
     </>
   );
 };

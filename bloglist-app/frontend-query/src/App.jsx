@@ -130,9 +130,9 @@ const App = () => {
         username={username}
         password={password}
       />
-
+      <Notification />
       <Routes>
-        <Route path="/users" element={<Users />} />
+        <Route path="/users/*" element={<Users userToRender={null} />} />
         <Route
           path="/"
           element={
@@ -147,8 +147,6 @@ const App = () => {
           }
         />
       </Routes>
-
-      <Notification />
     </div>
   );
 };

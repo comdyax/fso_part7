@@ -32,9 +32,19 @@ POST  http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "blog main 2",
-    "name": "logblog ",
-    "password": "aspasdasd123aspwasf"
+    "username": "JohnDoe24",
+    "name": "John Doe",
+    "password": "somethingcomplicated"
+}
+
+###
+POST  http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "StanAndTheMarkVI",
+    "name": "Stan Doeinger",
+    "password": "veryverycomplicated"
 }
 
 ###
@@ -53,7 +63,6 @@ GET http://localhost:3003/api/users
 
 
 ###
-
 POST http://localhost:3003/api/login
 Content-Type:  application/json
 

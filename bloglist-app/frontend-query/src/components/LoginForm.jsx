@@ -1,4 +1,5 @@
 import { useUserValue } from "./UserContext";
+import { Form, Button } from "react-bootstrap";
 
 const LoginForm = ({
   handleLogin,
@@ -13,31 +14,32 @@ const LoginForm = ({
     return (
       <>
         <h1>Login to see application</h1>
-        <form onSubmit={handleLogin} id="loginForm">
-          <div>
-            username
-            <input
+        <Form onSubmit={handleLogin} id="loginForm">
+          <Form.Group>
+            <Form.Label>username:</Form.Label>
+            <Form.Control
               type="text"
               value={username}
               name="Username"
               onChange={({ target }) => setUsername(target.value)}
               id="username"
             />
-          </div>
-          <div>
-            password
-            <input
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>password:</Form.Label>
+            <Form.Control
               type="password"
               value={password}
               name="Password"
               onChange={({ target }) => setPassword(target.value)}
               id="password"
             />
-          </div>
-          <button type="submit" id="login-button">
+          </Form.Group>
+          <br></br>
+          <Button variant="primary" type="submit" id="login-button">
             login
-          </button>
-        </form>
+          </Button>
+        </Form>
       </>
     );
   } else {
@@ -45,9 +47,9 @@ const LoginForm = ({
       <div>
         <h1>{user.name} is logged in</h1>
         <form onSubmit={handleLogout}>
-          <button type="submit" id="logout-button">
+          <Button variant="primary" type="submit" id="logout-button">
             logout
-          </button>
+          </Button>
         </form>
       </div>
     );

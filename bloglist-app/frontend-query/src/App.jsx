@@ -121,7 +121,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <LoginForm
         handleLogin={handleLogin}
         handleLogout={handleLogout}

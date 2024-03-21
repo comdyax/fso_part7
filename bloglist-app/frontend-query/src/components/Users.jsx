@@ -9,7 +9,7 @@ const UserTable = ({ users }) => {
   return (
     <>
       <h1>Users</h1>
-      <Table>
+      <Table striped>
         <thead>
           <tr>
             <th>username</th>

@@ -1,19 +1,19 @@
 import { useState, useEffect, useRef } from "react";
+import { Route, Routes } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import { useNotificationDispatch } from "./components/BlogContext";
+import { useUserDispatch, useUserValue } from "./components/UserContext";
 
 import NewBlog from "./components/NewBlog";
 import Blogs from "./components/Blogs";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
-
-import { useNotificationDispatch } from "./components/BlogContext";
-import { useUserDispatch, useUserValue } from "./components/UserContext";
-import { Route, Routes } from "react-router-dom";
 import Users from "./components/Users";
+import Menu from "./components/Menu";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -122,6 +122,7 @@ const App = () => {
 
   return (
     <div className="container">
+      <Menu handleLogout={handleLogout} />
       <LoginForm
         handleLogin={handleLogin}
         handleLogout={handleLogout}

@@ -43,16 +43,7 @@ const LoginForm = ({
       </>
     );
   } else {
-    return (
-      <div>
-        <h1>{user.name} is logged in</h1>
-        <form onSubmit={handleLogout}>
-          <Button variant="primary" type="submit" id="logout-button">
-            logout
-          </Button>
-        </form>
-      </div>
-    );
+    return <h1>blog app</h1>;
   }
 };
 

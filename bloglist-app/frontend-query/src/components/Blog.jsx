@@ -2,6 +2,7 @@ import { useState } from "react";
 import blogService from "../services/blogs";
 import PropTypes from "prop-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button, Card } from "react-bootstrap";
 
 const Blog = ({ blog, user, addLike }) => {
   const queryClient = useQueryClient();
@@ -39,60 +40,52 @@ const Blog = ({ blog, user, addLike }) => {
     addLike(newBlogObject);
   };
 
-  const showNot = { display: hide ? "none" : "" };
-  const show = { display: hide ? "" : "none" };
+  const showNot = { display: hide ? "none" : "", padding: "5px" };
+  const show = { display: hide ? "" : "none", padding: "5px" };
   const removeButtonStyle = {
     display: user.username === blog.user.username ? "" : "none",
-    backgroundColor: "blue",
-    border: "3px",
-    borderRadius: "3px",
-    padding: "4px 4px",
-    margin: "10px 10px",
-    color: "white",
-  };
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
+    padding: "5px",
   };
 
   return (
-    <div style={blogStyle} className="blogDiv">
-      <div className="defaultValues">
-        <b>title:</b> {blog.title}
+    <Card style={{ backgroundColor: "#eeffcc" }}>
+      <Card.Body>
+        <Card.Title>{blog.title}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{blog.author}</Card.Subtitle>
         <br></br>
-        <b>author:</b> {blog.author}
-        <br></br>
-        <button style={show} onClick={changeHide} id="showDetails-button">
-          show details
-        </button>
-        <button style={showNot} onClick={changeHide}>
-          close details
-        </button>
-      </div>
-      <div style={showNot} className="detailValues">
-        <b>url:</b> {blog.url}
-        <br></br>
-        <b>likes:</b> {blog.likes}
-        &emsp;
-        <button onClick={newLike} id="like-button">
-          like
-        </button>
-        <br></br>
-        <b>username:</b> {blog.user.username}
-        <br></br>
-        <button
-          style={removeButtonStyle}
-          onClick={removeBlog}
-          id="remove-button"
+        <Button
+          variant="primary"
+          style={show}
+          onClick={changeHide}
+          id="showDetails-button"
         >
-          remove
-        </button>
-      </div>
-    </div>
+          show details
+        </Button>
+        <Button variant="success" style={showNot} onClick={changeHide}>
+          close details
+        </Button>
+        <div style={showNot} className="detailValues">
+          <b>url:</b> {blog.url}
+          <br></br>
+          <b>likes:</b> {blog.likes}
+          &emsp;
+          <Button variant="light" onClick={newLike} id="like-button">
+            like
+          </Button>
+          <br></br>
+          <b>username:</b> {blog.user.username}
+          <br></br>
+          <Button
+            variant="danger"
+            style={removeButtonStyle}
+            onClick={removeBlog}
+            id="remove-button"
+          >
+            remove
+          </Button>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
 

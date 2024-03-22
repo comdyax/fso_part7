@@ -7,13 +7,14 @@ const Blogs = (props) => {
     return (
       <div key={user.id} id="blogs">
         <h2>blogs</h2>
-        <ul key={user.id}>
+        <div key={user.id}>
           {props.blogs.map((blog) => (
-            <li key={blog.id}>
+            <div key={blog.id}>
               <Blog blog={blog} user={user} addLike={props.addLike} />
-            </li>
+              <br></br>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     );
   }

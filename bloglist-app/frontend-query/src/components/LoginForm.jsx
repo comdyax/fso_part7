@@ -43,7 +43,11 @@ const LoginForm = ({
       </>
     );
   } else {
-    return <h1>blog app</h1>;
+    return (
+      <div style={{ textAlign: "center" }}>
+        <h1>blog app</h1>
+      </div>
+    );
   }
 };
 
